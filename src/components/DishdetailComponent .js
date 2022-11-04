@@ -1,6 +1,8 @@
 import React from 'react'
-// Its a Presentational Component
 
+import { Link } from "react-router-dom";
+
+// Its a Presentational Component
 
     function RenderComment({dish}) {
         if (dish != null) {
@@ -9,7 +11,7 @@ import React from 'react'
                     <div className="card">
                         <div className="card-body">
                             <h4 className="card-title">Comments</h4>
-                            <div  className="card-text">{dish.comments.map((c) => {
+                            <div  className="card-text">{dish.map((c) => {
                                 return (
                                     <div key={c.id}>
                                         <p>{c.comment}</p>
@@ -55,11 +57,21 @@ import React from 'react'
         return (
             <div className="container">
                 <div className="row">
-                    {/* {this.renderDish(this.props.dishes)}
-                    {this.renderComment(this.props.dishes)} */}
-
-                    <RenderDish dish = {props.dishes}/>
-                    <RenderComment dish = {props.dishes}/>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                       
+                        <li class="breadcrumb-item"><Link to="/menu">Menu</Link></li>
+                        <li class="breadcrumb-item active" aria-current="page">{props.dish.name}</li>
+                    </ol>
+                </nav>
+                <div className="col-12">
+                    <h3>{props.dish.name}</h3>
+                    <hr />
+                </div>
+            </div>
+                <div className="row">                 
+                    <RenderDish dish = {props.dish}/>
+                    <RenderComment dish = {props.comments}/>
                 </div>
             </div>
         )
