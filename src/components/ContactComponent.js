@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // As here our state will get changed so we have to use class component instead of functional component
-// We can say that forms can only be implemented with Class based Components
+// We can also implement forms using Functional component using useState() Hooks
 
 class Contact extends Component {
     constructor(props) {
@@ -14,11 +14,28 @@ class Contact extends Component {
             telnum: '',
             email: '',
             agree: false,
-            contactType: 'Tel.',
             message: ''
 
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+
     }
+
+    handleInputChange(event){
+        
+        this.setState({
+            [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
+        })
+
+    }
+
+    handleSubmit(event){
+        console.log("Current State is: " + JSON.stringify(this.state));
+        alert("Current State is: " + JSON.stringify(this.state));
+        event.preventDefault(); // prevent our page from getting reload on submit the form 
+    }
+
     render() {
         return (
             <div className="container">
@@ -62,6 +79,7 @@ class Contact extends Component {
                 </div>
 
 
+                <form onSubmit={this.handleSubmit}>
                 <div className="row row-content">
                     <div className="col-12">
                         <h3>Send Us Your Feedback</h3>
@@ -70,36 +88,37 @@ class Contact extends Component {
                         <div className="mb-3 row">
                             <label htmlFor="firstname" className="col-sm-2 col-form-label">First Name</label>
                             <div className="col-sm-10">
-                                <input type="text" className="form-control" id="firstname" name='firstname' value={this.state.firstname} placeholder='First Name' />
+                                <input type="text" className="form-control" id="firstname" name='firstname' value={this.state.firstname} placeholder='First Name' onChange={this.handleInputChange}  />
                             </div>
                         </div>
 
                         <div className="mb-3 row">
                             <label htmlFor="lastname" className="col-sm-2 col-form-label">Last Name</label>
                             <div className="col-sm-10">
-                                <input type="text" className="form-control" id="lastname" name='lastname' value={this.state.lastname} placeholder='Last Name' />
+                                <input type="text" className="form-control" id="lastname" name='lastname' value={this.state.lastname} placeholder='Last Name' onChange={this.handleInputChange}  />
                             </div>
                         </div>
 
                         <div className="mb-3 row">
                             <label htmlFor="telnum" className="col-sm-2 col-form-label">Contact No.</label>
                             <div className="col-sm-10">
-                                <input type="tel" className="form-control" id="telnum" name='telnum' value={this.state.telnum} placeholder='Mobile Number' />
+                                <input type="tel" className="form-control" id="telnum" name='telnum' value={this.state.telnum} placeholder='Mobile Number' onChange={this.handleInputChange}/>
                             </div>
                         </div>
 
                         <div className="mb-3 row">
                             <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
                             <div className="col-sm-10">
-                                <input type="email" className="form-control" id="email" name='email' value={this.state.email} placeholder='Enter Email Here' />
+                                <input type="email" className="form-control" id="email" name='email' value={this.state.email} placeholder='Enter Email Here' 
+                                onChange={this.handleInputChange} />
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-10">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck1" />
-                                    <label class="form-check-label" for="gridCheck1">
+                        <div className="form-group row">
+                            <div className="col-sm-2"></div>
+                            <div className="col-sm-10">
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" id="gridCheck1" name="agree" checked={this.state.agree} onChange={this.handleInputChange} />{' '}
+                                    <label className="form-check-label" htmlFor="gridCheck1">
                                         <strong>May we contact you?</strong>
                                     </label>
                                 </div>
@@ -107,23 +126,18 @@ class Contact extends Component {
                         </div>
 
                         <div className="mb-3 row">
-                        <div class="col-sm-2"><label htmlFor="message" className="col-sm-2 col-form-label">Your Feedback</label></div>
-                        <div class="col-sm-10">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck1" />
-                                    <label class="form-check-label" for="gridCheck1">
-                                    <textarea id="message" name="message"
-                                rows="12" cols='33' value={this.state.message}></textarea>
-                                    </label>
-                                </div>
+                            <div className="form-group">
+                                <label for="message">Your Feedback</label>
+                                <textarea className="form-control" id="message" name="message" rows="12" value={this.state.message} onChange={this.handleInputChange} ></textarea>
                             </div>
 
-                            
-                        </div>
 
-                        <input class="btn btn-primary" type="submit" value="Send Feedback" />
+                        </div>
+                        <input className="btn btn-primary" type="submit" value="Send Feedback" />
                     </div>
                 </div>
+              {/* 'submit' button should be just above the closing form tag </form> */}
+                </form>
             </div>
         );
     }
